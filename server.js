@@ -1,21 +1,23 @@
-// require
+const express = require("express");
+const axios = require("axios");
 
-const express = require("express")
-const path = require("path")
+const app = express();
 
-const app = express()
+const port = 3000;
 
-const port = 3000
+const API_ENDPOINT = "https://uselessfacts.jsph.pl/api/v2/facts/random";
+
+app.get("/api/fun-fact", async (req, res) => {
+  try {
+    const resp = await axios.get(API_ENDPOINT);
+    res.json(resp.data.text);
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json({ error: "Could not fetch fun fact" });
+  }
+});
 
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname,"public","index.html"))
-})
-
-app.get("/contact", (req, res) => {
-    res.sendFile(path.join(__dirname,"public","contact.html"))
-})
-
-app.listen(port,() => {
-    console.log(`server running at http://localhost:${port}`)
-})
+app.listen(port, () => {
+  console.log(`server running at http://localhost:${port}`);
+});
