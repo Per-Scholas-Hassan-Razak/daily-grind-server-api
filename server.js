@@ -9,15 +9,15 @@ const API_ENDPOINT = "https://uselessfacts.jsph.pl/api/v2/facts/random";
 
 app.get("/api/fun-fact", async (req, res) => {
   try {
-    const resp = await axios.get(API_ENDPOINT);
-    res.json(resp.data.text);
-  } catch (e) {
-    console.error(e.message);
+    const response = await axios.get(API_ENDPOINT);
+    res.json(
+     { fact: response.data.text}
+    )
+  } catch (error) {
     res.status(500).json({ error: "Could not fetch fun fact" });
   }
 });
 
-
 app.listen(port, () => {
-  console.log(`server running at http://localhost:${port}`);
+  console.log(`Listening on port http://localhost:${port}`);
 });
